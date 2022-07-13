@@ -1,7 +1,7 @@
 import React from "react";
 import axios, { AxiosResponse, AxiosError } from "axios";
 
-type apiReslut = {
+type apiResult = {
   message: string;
   result: prefType[];
 };
@@ -14,29 +14,28 @@ type prefType = {
   prefName: string;
 };
 
-const PrefecturesListGet = (url: string): moduleReturn => {
+const PrefecturesListGet = (url: string, callback:(data:moduleReturn)=>void): boolean => {
   const returnArray: moduleReturn = {
-    datas: [{prefCode:1,prefName:"初期値"}],
-    status: true,
+    datas: [{prefCode:0,prefName:""}],
+    status: false,
   };
   const apiKey = process.env.REACT_APP_API_KEY;
   if (typeof apiKey === "undefined") {
-    return returnArray;
+    return false;
   }
   axios
     .get(url, { headers: { "X-API-KEY": apiKey } })
-    .then((res: AxiosResponse<apiReslut>) => {
+    .then((res: AxiosResponse<apiResult>) => {
       returnArray.datas = res.data.result;
       returnArray.status = true;
-      console.log('axios ok');
-      return returnArray;
+      callback(returnArray);
     })
     .catch((e: AxiosError) => {
-      returnArray.status = true;
-      console.log('axios ng');
-      return returnArray;
+      returnArray.status = false;
+      callback(returnArray);
     });
-    console.log('axios first');
+    return true;
+
 };
 
 export default PrefecturesListGet;
