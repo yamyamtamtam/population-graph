@@ -5,23 +5,26 @@ type apiResult = {
   message: string;
   result: prefType[];
 };
-type moduleReturn = {
+type apiReturn = {
   datas: prefType[];
   status: boolean;
 };
 type prefType = {
-  prefCode: number;
+  prefCode: string;
   prefName: string;
 };
 
-const PrefecturesListGet = (url: string, callback:(data:moduleReturn)=>void): boolean => {
-  const returnArray: moduleReturn = {
-    datas: [{prefCode:0,prefName:""}],
+const PrefecturesListGet = (
+  callback: (data: apiReturn) => void
+) => {
+  const returnArray: apiReturn = {
+    datas: [{ prefCode: "", prefName: "" }],
     status: false,
   };
+  const url = "https://opendata.resas-portal.go.jp/api/v1/prefectures";
   const apiKey = process.env.REACT_APP_API_KEY;
   if (typeof apiKey === "undefined") {
-    return false;
+    return;
   }
   axios
     .get(url, { headers: { "X-API-KEY": apiKey } })
@@ -34,8 +37,6 @@ const PrefecturesListGet = (url: string, callback:(data:moduleReturn)=>void): bo
       returnArray.status = false;
       callback(returnArray);
     });
-    return true;
-
 };
 
 export default PrefecturesListGet;
