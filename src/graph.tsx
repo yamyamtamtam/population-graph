@@ -1,13 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import PrefectureListGet from "./prefecturesListGet";
+import PrefecturesClick from "./populationGet";
 
-let activePrefCode:string[] = [];
-
-const PrefecturesClick = (prefcode:string) => {
-  if(activePrefCode.includes(prefcode)){
-    activePrefCode = activePrefCode.filter((item) => item !== prefcode);
-  }else{
-    activePrefCode.push(prefcode);
-  }
+type apiReturn = {
+  datas: prefType[];
+  status: boolean;
+};
+type prefType = {
+  prefCode: string;
+  prefName: string;
+};
+const PrefecturesList = () => {
+  const [dataList, setDataList] = useState<apiReturn>({
+    datas: [],
+    status: false,
+  });
+  const setDataCallback = (data: apiReturn) => {
+    setDataList(data);
+  };
+  useEffect(() => {
+    PrefectureListGet(setDataCallback);
+  }, []);
+  return (
+    <div>
+      <h2>都道府県</h2>
+      <ul>
+        {dataList.status &&
+          dataList.datas.map((pref: prefType) => {
+            return (
+              <li>
+                <input
+                  onChange={()=>PrefecturesClick(pref.prefCode)}
+                  type="checkbox"
+                  name="pref"
+                  id={pref.prefCode}
+                  value={pref.prefCode}
+                />
+                <label htmlFor={pref.prefCode}>{pref.prefName}</label>
+              </li>
+            );
+          })}
+      </ul>
+    </div>
+  );
 };
 
-export default PrefecturesClick;
+export default PrefecturesList;

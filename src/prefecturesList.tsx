@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PrefectureListGet from "./prefecturesListGet";
-import PrefecturesClick from "./graph";
+import PrefecturesClick from "./populationGet";
 
 type apiReturn = {
   datas: prefType[];
