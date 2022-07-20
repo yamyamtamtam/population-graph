@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PrefectureListGet from "./prefecturesListGet";
-import PrefecturesClick from "./populationGet";
 
 type apiReturn = {
   datas: prefType[];
@@ -30,7 +29,6 @@ const PrefecturesList = () => {
             return (
               <li>
                 <input
-                  onChange={() => PrefecturesClick(pref.prefCode)}
                   type="checkbox"
                   name="pref"
                   id={pref.prefCode}
