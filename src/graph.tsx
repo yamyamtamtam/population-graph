@@ -1,13 +1,15 @@
 import React from "react";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+} from 'recharts';
 
-let activePrefCode:string[] = [];
+const Graph = () => {
 
-const PrefecturesClick = (prefcode:string) => {
-  if(activePrefCode.includes(prefcode)){
-    activePrefCode = activePrefCode.filter((item) => item !== prefcode);
-  }else{
-    activePrefCode.push(prefcode);
-  }
+  return (
+    <section>
+
+    </section>
+  );
 };
 
-export default PrefecturesClick;
+export default Graph;

@@ -14,9 +14,7 @@ type prefType = {
   prefName: string;
 };
 
-const PrefecturesListGet = (
-  callback: (data: apiReturn) => void
-) => {
+const PrefecturesListGet = (callback: (data: apiReturn) => void) => {
   const returnArray: apiReturn = {
     datas: [{ prefCode: "", prefName: "" }],
     status: false,
