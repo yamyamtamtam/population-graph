@@ -30,7 +30,9 @@ const PrefecturesList = () => {
             return (
               <li>
                 <input
-                  onChange={()=>PrefecturesClick(pref.prefCode)}
+                  onChange={() => {
+                    PrefecturesClick(pref.prefCode, pref.prefName);
+                  }}
                   type="checkbox"
                   name="pref"
                   id={pref.prefCode}
