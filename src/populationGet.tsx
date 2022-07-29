@@ -30,8 +30,20 @@ type returnDataType = {
 const returnData: returnDataType[] = [];
 
 const PrefecturesClick = (prefcode: string, prefname: string) => {
-  getFromApi(prefcode,prefname);
+  if (returnData.some((val) => val[prefname])) {
+    deleteUncheck(prefname);
+  }else{
+    getFromApi(prefcode,prefname);
+  }
 };
+
+const deleteUncheck = (prefname: string) => {
+  returnData.map((val) => {
+    const returnVal = val;
+    delete returnVal[prefname];
+    return returnVal;
+  })
+}
 
 const getFromApi = (prefcode: string, prefname: string) => {
   const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefcode}`;
@@ -46,9 +58,7 @@ const getFromApi = (prefcode: string, prefname: string) => {
         if (returnData.some((val) => val.year === resVal.year)) {
           returnData.map((val) => {
             const returnVal = val;
-            if(returnVal[prefname] && returnVal.year === resVal.year){ // チェック外された時。returnするデータに都道府県名が既に入っていたら消す
-              delete returnVal[prefname];
-            }else if(returnVal.year === resVal.year){
+            if(returnVal.year === resVal.year){
               returnVal[prefname] = resVal.value;
             }
             return returnVal;
@@ -59,8 +69,6 @@ const getFromApi = (prefcode: string, prefname: string) => {
           returnData.push(resVal);
         }
       });
-      console.log(returnData);
-
     })
     .catch((e: AxiosError) => {
       console.log(e);
