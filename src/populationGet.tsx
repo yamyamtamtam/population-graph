@@ -3,13 +3,13 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 
 type apiResult = {
   message: string;
-  result: boundaryYear;
+  result: boundaryYearType;
 };
-type boundaryYear = {
+type boundaryYearType = {
   boundaryYear: number;
-  data: eachData[];
+  data: eachDatatype[];
 };
-type eachData = {
+type eachDatatype = {
   label: string;
   data: populationType[];
 };
@@ -17,17 +17,24 @@ type populationType = {
   year: number;
   value: number;
 };
+type tempDataType = {
+  year: number;
+  value?: any;
+  [index: string]: number;
+};
+type returnDataType = {
+  year: number;
+  [index: string]: number;
+};
 
-let activePrefCode: string[] = [];
+const returnData: returnDataType[] = [];
 
 const PrefecturesClick = (prefcode: string, prefname: string) => {
-  if (activePrefCode.includes(prefcode)) {
-    activePrefCode = activePrefCode.filter((item) => item !== prefcode);
-  } else {
-    activePrefCode.push(prefcode);
-  }
-  console.log(activePrefCode);
-  const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${activePrefCode[0]}`;
+  getFromApi(prefcode,prefname);
+};
+
+const getFromApi = (prefcode: string, prefname: string) => {
+  const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefcode}`;
   const apiKey = process.env.REACT_APP_API_KEY;
   if (typeof apiKey === "undefined") {
     return;
@@ -35,11 +42,32 @@ const PrefecturesClick = (prefcode: string, prefname: string) => {
   axios
     .get(url, { headers: { "X-API-KEY": apiKey } })
     .then((res: AxiosResponse<apiResult>) => {
-      console.log(res.data.result.data[0].data);
+      res.data.result.data[0].data.forEach((resVal) => {
+        if (returnData.some((val) => val.year === resVal.year)) {
+          returnData.map((val) => {
+            const returnVal = val;
+            if(returnVal[prefname] && returnVal.year === resVal.year){ // チェック外された時。returnするデータに都道府県名が既に入っていたら消す
+              delete returnVal[prefname];
+            }else if(returnVal.year === resVal.year){
+              returnVal[prefname] = resVal.value;
+            }
+            return returnVal;
+          });
+        } else {
+          const tempItem:tempDataType = Object.assign(resVal, { [prefname]: resVal.value });
+          delete tempItem.value;  
+          returnData.push(resVal);
+        }
+      });
+      console.log(returnData);
+
     })
     .catch((e: AxiosError) => {
       console.log(e);
     });
-};
+
+}
+
+
 
 export default PrefecturesClick;
