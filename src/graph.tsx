@@ -9,7 +9,7 @@ import {
   Legend,
 } from "recharts";
 
-const data = [
+const primaryData = [
   {
     year: 1980,
     北海道: 12817,
@@ -56,19 +56,47 @@ const data = [
     青森県: 14000,
   },
 ];
+type prefType = {
+  prefCode: string;
+  prefName: string;
+};
 
-const Graph = () => {
+type graphDataType = {
+  year: number;
+  [index: string]: number;
+};
+
+const Graph = (props: {graphData:graphDataType[],prefList:prefType[]}) => {
+  console.log(props);
+  const {graphData,prefList} = props;
   return (
     <section>
-      <LineChart width={500} height={300} data={data}>
+      <LineChart width={500} height={300} data={primaryData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="year" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line dataKey="北海道" name="北海道" fill="#FF0000" />
-        <Line dataKey="青森県" name="青森県" fill="#FF0000" />
+        <Line dataKey='北海道' name='北海道' fill="#FF0000" />
+        <Line dataKey='青森県' name='青森県' fill="#FF0000" />
       </LineChart>
+      <h5>propsの値確認用</h5>
+      <ul>
+        {graphData.map((data:graphDataType) => {
+          return (
+            <li>{data.year} 沖縄: {data['沖縄県']} 鹿児島: {data['鹿児島県']}</li>
+            )
+        })}
+      </ul>
+      <h5>都道府県リスト出力確認用</h5>
+      <ul>
+        {prefList.map((pref) => {
+          return (
+            <li>{pref.prefName}</li>
+          )
+        })}
+      </ul>
+
     </section>
   );
 };

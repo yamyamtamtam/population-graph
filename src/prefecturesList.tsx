@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PrefectureListGet from "./prefecturesListGet";
 import PrefecturesClick from "./populationGet";
+import Graph from "./graph";
+
 
 type apiReturn = {
   datas: prefType[];
@@ -10,17 +12,32 @@ type prefType = {
   prefCode: string;
   prefName: string;
 };
+
+type graphDataType = {
+  year: number;
+  [index: string]: number;
+};
+
 const PrefecturesList = () => {
-  const [dataList, setDataList] = useState<apiReturn>({
+  const [dataList, setPrefList] = useState<apiReturn>({
     datas: [],
     status: false,
   });
-  const setDataCallback = (data: apiReturn) => {
-    setDataList(data);
+  const setPrefCallback = (data: apiReturn) => {
+    setPrefList(data);
   };
   useEffect(() => {
-    PrefectureListGet(setDataCallback);
+    PrefectureListGet(setPrefCallback);
   }, []);
+
+  const [graphData, setgraphData] = useState<graphDataType[]>([]);
+  const setgraphCallback = (data: graphDataType[]) => {
+    const graphDataCopy = graphData.slice(0);
+    data.map((val) => {
+      return graphDataCopy.push(val);
+    })
+    setgraphData(graphDataCopy);
+  };
   return (
     <div>
       <h2>都道府県</h2>
@@ -31,7 +48,11 @@ const PrefecturesList = () => {
               <li>
                 <input
                   onChange={() => {
-                    PrefecturesClick(pref.prefCode, pref.prefName);
+                    PrefecturesClick(
+                      pref.prefCode,
+                      pref.prefName,
+                      setgraphCallback
+                    );
                   }}
                   type="checkbox"
                   name="pref"
@@ -43,6 +64,7 @@ const PrefecturesList = () => {
             );
           })}
       </ul>
+      <Graph graphData={graphData} prefList={dataList.datas} />
     </div>
   );
 };
