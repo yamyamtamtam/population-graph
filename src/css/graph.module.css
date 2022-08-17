@@ -1,0 +1,11 @@
+.graph {
+  margin: 2em 0 0;
+}
+
+.graph svg {
+  margin: 0 auto;
+}
+
+.graph tspan {
+  font-size: 0.8em;
+}

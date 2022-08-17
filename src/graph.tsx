@@ -8,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import Style from "./css/graph.module.css";
+
 
 type prefType = {
   prefCode: string;
@@ -24,17 +26,18 @@ const Graph = (props: { graphData: graphDataType[]; prefList: prefType[] }) => {
   const { graphData, prefList } = props;
 
   const [windowResize, setWindowResize] = useState(
-    document.body.clientWidth * 0.8
+    document.body.clientWidth * 0.9
   );
   useEffect(() => {
     const onResize = () => {
-      setWindowResize(document.body.clientWidth * 0.8);
+      setWindowResize(document.body.clientWidth * 0.9);
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+  
   return (
-    <section>
+    <section className={Style.graph}>
       <LineChart width={windowResize} height={500} data={graphData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="year" />

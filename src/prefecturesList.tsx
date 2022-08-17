@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PrefectureListGet from "./prefecturesListGet";
 import PrefecturesClick from "./populationGet";
 import Graph from "./graph";
+import Style from "./css/prefecturesList.module.css";
 
 type apiReturn = {
   datas: prefType[];
@@ -43,8 +44,7 @@ const PrefecturesList = () => {
 
   return (
     <div>
-      <h2>都道府県</h2>
-      <ul>
+      <ul className={Style.prefList}>
         {dataList.status &&
           dataList.datas.map((pref: prefType) => {
             return (
@@ -62,7 +62,7 @@ const PrefecturesList = () => {
                   id={pref.prefCode}
                   value={pref.prefCode}
                 />
-                <label htmlFor={pref.prefCode}>{pref.prefName}</label>
+                <label htmlFor={pref.prefCode} style={{borderColor: pref.prefColor}}>{pref.prefName}</label>
               </li>
             );
           })}

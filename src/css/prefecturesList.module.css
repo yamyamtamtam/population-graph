@@ -1,0 +1,35 @@
+.prefList {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.prefList li {
+  list-style-type: none;
+  margin: 0 0.3rem 0.7rem 0.3em;
+}
+
+.prefList li label {
+  display: block;
+  padding: 0.2em 1.4em;
+  border: 0.08em solid #fff;
+  border-radius: 2em;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0.1em 0.1em 0.1em 0.1em #eee, 0.1em 0.1em 0.1em 0.1em #eee inset;
+}
+
+.prefList li label:hover {
+  opacity: 0.6;
+}
+
+.prefList li input[type="checkbox"] {
+  display: none;
+}
+
+.prefList li input[type="checkbox"]:checked + label {
+  background: #ddd;
+}

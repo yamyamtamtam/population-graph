@@ -1,0 +1,55 @@
+.wrapper {
+  display: block;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 2.6em 0 3.4em;
+  position: relative;
+  text-align: center;
+}
+
+.header:before {
+  content: "";
+  width: 20%;
+  height: 0.06em;
+  background: linear-gradient(to right, #bc3aac, 66%, #9735ed);
+}
+
+.header:after {
+  content: "";
+  width: 20%;
+  height: 0.06em;
+  background: linear-gradient(to left, #bc3aac, 66%, #9735ed);
+}
+
+.header h1 {
+  display: inline;
+  font-size: 1.6em;
+  margin: 0 1em;
+}
+
+.footer {
+  text-align: center;
+  padding: 2.8em 0 2em;
+}
+
+.footer a {
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.5em 2em;
+  border-radius: 2em;
+  color: #fff;
+  background: linear-gradient(to right, #bc3aac, 66%, #9735ed);
+}
+
+.footer h6 {
+  margin: 2em 0 0;
+  font-weight: normal;
+}
