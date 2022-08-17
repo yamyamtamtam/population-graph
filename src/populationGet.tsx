@@ -30,11 +30,15 @@ type returnDataType = {
 
 const returnData: returnDataType[] = [];
 
-const PrefecturesClick = (prefcode: string, prefname: string, callback: (data: returnDataType[]) => void) => {
+const PrefecturesClick = (
+  prefcode: string,
+  prefname: string,
+  callback: (data: returnDataType[]) => void
+) => {
   if (returnData.some((val) => val[prefname])) {
     deleteUncheck(prefname);
     callback(returnData);
-  }else{
+  } else {
     const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefcode}`;
     const apiKey = process.env.REACT_APP_API_KEY;
     if (typeof apiKey === "undefined") {
@@ -47,14 +51,16 @@ const PrefecturesClick = (prefcode: string, prefname: string, callback: (data: r
           if (returnData.some((val) => val.year === resVal.year)) {
             returnData.map((val) => {
               const returnVal = val;
-              if(returnVal.year === resVal.year){
+              if (returnVal.year === resVal.year) {
                 returnVal[prefname] = resVal.value;
               }
               return returnVal;
             });
           } else {
-            const tempItem:tempDataType = Object.assign(resVal, { [prefname]: resVal.value });
-            delete tempItem.value;  
+            const tempItem: tempDataType = Object.assign(resVal, {
+              [prefname]: resVal.value,
+            });
+            delete tempItem.value;
             returnData.push(resVal);
           }
         });
@@ -62,7 +68,7 @@ const PrefecturesClick = (prefcode: string, prefname: string, callback: (data: r
       })
       .catch((e: AxiosError) => {
         console.log(e);
-      });  
+      });
   }
 };
 
@@ -71,8 +77,7 @@ const deleteUncheck = (prefname: string) => {
     const returnVal = val;
     delete returnVal[prefname];
     return returnVal;
-  })
-}
-
+  });
+};
 
 export default PrefecturesClick;

@@ -3,7 +3,6 @@ import PrefectureListGet from "./prefecturesListGet";
 import PrefecturesClick from "./populationGet";
 import Graph from "./graph";
 
-
 type apiReturn = {
   datas: prefType[];
   status: boolean;
@@ -11,6 +10,7 @@ type apiReturn = {
 type prefType = {
   prefCode: string;
   prefName: string;
+  prefColor: string;
 };
 
 type graphDataType = {
@@ -30,14 +30,17 @@ const PrefecturesList = () => {
     PrefectureListGet(setPrefCallback);
   }, []);
 
-  const [graphData, setgraphData] = useState<graphDataType[]>([]);
+  const [graphData, setgraphData] = useState<graphDataType[]>([
+    { year: 0, "": 0 },
+  ]);
   const setgraphCallback = (data: graphDataType[]) => {
-    const graphDataCopy = graphData.slice(0);
+    const graphDataCopy: graphDataType[] = [];
     data.map((val) => {
       return graphDataCopy.push(val);
-    })
+    });
     setgraphData(graphDataCopy);
   };
+
   return (
     <div>
       <h2>都道府県</h2>
